@@ -14,7 +14,6 @@
 #define __VVS_UNIT_TEST__
 
 #include <stdio.h>
-#include <time.h>
 
 /**
  * An output stream to display test results
@@ -44,18 +43,13 @@
 #define VVS_LOCATION_MSG                (" --> File: %s / Line: %d\n")
 
 /**
- * A string format to show computing time of the given expression
- */
-#define VVS_TIME_MSG                    (" --> Computing Time: %.3f [msec]")
-
-/**
  * Verify that the given expression is true
  * @param EXP the given expression
  */
 #define VVS_CHECK_TRUE(EXP) \
 { \
-    fprintf(VVS_OUTPUT, "[CHECK_TRUE ] " #EXP); \
     int _isTrue = (int)(EXP); \
+    fprintf(VVS_OUTPUT, "[CHECK_TRUE ] " #EXP); \
     if (_isTrue) fprintf(VVS_OUTPUT, VVS_SUCCESS_MSG); \
     else \
     { \
@@ -70,8 +64,8 @@
  */
 #define VVS_CHECK_FALSE(EXP) \
 { \
-    fprintf(VVS_OUTPUT, "[CHECK_FALSE] " #EXP); \
     int _isTrue = (int)(EXP); \
+    fprintf(VVS_OUTPUT, "[CHECK_FALSE] " #EXP); \
     if (!_isTrue) fprintf(VVS_OUTPUT, VVS_SUCCESS_MSG); \
     else \
     { \
@@ -87,9 +81,9 @@
  */
 #define VVS_CHECK_CLOSE(VAL1, VAL2) \
 { \
-    fprintf(VVS_OUTPUT, "[CHECK_CLOSE] " #VAL1 " == " #VAL2); \
     double _delta = ((double)(VAL1) - (double)(VAL2)); \
     int _isClose = (-VVS_EPSILON < _delta) && (_delta < +VVS_EPSILON); \
+    fprintf(VVS_OUTPUT, "[CHECK_CLOSE] " #VAL1 " == " #VAL2); \
     if (_isClose) fprintf(VVS_OUTPUT, VVS_SUCCESS_MSG); \
     else \
     { \
@@ -104,7 +98,7 @@
  */
 #define VVS_RUN_TEST(EXP) \
 { \
-    frintf(VVS_OUTPUT, "=== " #EXP " ===" "\n"); \
+    fprintf(VVS_OUTPUT, "=== " #EXP " ===" "\n"); \
     (EXP); \
 }
 
@@ -115,18 +109,5 @@
  * @param EXP the given expression or function
  */
 #define VVS_NUN_TEST(EXP)               { }
-
-/**
- * Measure computing time of the given expression or function
- * @param EXP the given expression or function
- */
-#define VVS_MEASURE_TIME(EXP) \
-{ \
-    clock_t _t = clock(); \
-    (EXP); \
-    _t = clock() - _t; \
-    float _sec = (float)(_t) / CLOCKS_PER_SEC; \
-    fprintf(VVS_OUTPUT, VVS_TIME_MSG, _sec * 1000); \
-}
 
 #endif // End of '__VVS_UNIT_TEST__'

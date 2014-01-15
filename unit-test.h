@@ -14,6 +14,7 @@
 #define __VVS_UNIT_TEST__
 
 #include <stdio.h>
+#include <time.h>
 
 /**
  * An output stream to display test results
@@ -41,6 +42,11 @@
  * A string format to show location of the given expression
  */
 #define VVS_LOCATION_MSG                (" --> File: %s / Line: %d\n")
+
+/**
+ * TODO
+ */
+#define VVS_TIME_MSG                    (" --> Time: %.6f [sec]\n")
 
 /**
  * Verify that the given expression is true
@@ -99,8 +105,11 @@
 #define VVS_RUN_TEST(EXP) \
 { \
     fprintf(VVS_OUTPUT, "=== " #EXP " ===" "\n"); \
+    clock_t _t = clock(); \
     (EXP); \
-}
+    _t = clock() - _t; \
+    fprintf(VVS_OUTPUT, VVS_TIME_MSG, ((double)_t) / CLOCKS_PER_SEC); \
+} \
 
 /**
  * Do not run the given expression

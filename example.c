@@ -35,15 +35,15 @@ void testExample2(void)
     double pi = 3.141592;
 
     // Examples for real numbers
-    VVS_CHECK_FALSE(atan2(0.0, -1.0) == pi); // False due to small difference
-    VVS_CHECK_NEAR(atan2(0.0, -1.0), pi);    // True up to tolerance, 'VVS_EPSILON'
+    VVS_CHECK_FALSE(atan2(0.0, -1.0) == pi);    // False due to small difference
+    VVS_CHECK_NEAR(atan2(0.0, -1.0), pi);       // True up to tolerance, 'VVS_EPSILON'
 }
 
 int main(void)
 {
     // Run test functions
     VVS_RUN_TEST(testExample1());
-    VVS_NUN_TEST(testExample1()); // Do not run, 'NUN' instead of 'RUN'
+    VVS_NUN_TEST(testExample1());   // Do not run, 'NUN' instead of 'RUN'
     VVS_RUN_TEST(testExample2());
     
     return 0;

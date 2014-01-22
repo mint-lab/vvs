@@ -19,12 +19,12 @@ void testExample1(void)
     char name[] = "PerceptRUN";
 
     // Basic examples
-    VVS_CHECK_TRUE (bMonth == 12);
+    VVS_CHECK_TRUE(bMonth == 12);
     VVS_CHECK_FALSE(bDay == 12);
 
     // Examples for strings
-    VVS_CHECK_TRUE (strcmp(name, "PerceptRUN") == 0);
-    VVS_CHECK_TRUE (strcmp(name, "ETRI") == 0);
+    VVS_CHECK_TRUE(strcmp(name, "PerceptRUN") == 0);
+    VVS_CHECK_TRUE(strcmp(name, "ETRI") == 0);
 }
 
 /**
@@ -35,8 +35,8 @@ void testExample2(void)
     double pi = 3.141592;
 
     // Examples for real numbers
-    VVS_CHECK_TRUE (atan2(0.0, -1.0) == pi); // False due to small difference
-    VVS_CHECK_CLOSE(atan2(0.0, -1.0), pi);   // True up to tolerance, 'VVS_EPSILON'
+    VVS_CHECK_FALSE(atan2(0.0, -1.0) == pi); // False due to small difference
+    VVS_CHECK_NEAR(atan2(0.0, -1.0), pi);    // True up to tolerance, 'VVS_EPSILON'
 }
 
 int main(void)

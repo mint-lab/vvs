@@ -14,6 +14,7 @@
 #define __VVS_UNIT_TEST__
 
 #include <stdio.h>
+#include <assert.h>
 #include <time.h>
 
 /**
@@ -39,14 +40,27 @@
 #define VVS_FAILURE_MSG                 (" --> Failure!\n")
 
 /**
- * A string format to show location of the given expression
+ * A text (with two given values) to notify the given test is failed
+ */
+#define VVS_FAILURE_MSG2                (" --> Failure! (%f, %f)\n")
+
+/**
+ * A text format to show location of the given expression <p>
+ * If you don't want to display it, please make it an empty macro.
  */
 #define VVS_LOCATION_MSG                (" --> File: %s / Line: %d\n")
 
 /**
- * TODO
+ * A text format to show elapsed time <p>
+ * If you don't want to display it, please make it an empty macro.
  */
 #define VVS_TIME_MSG                    (" --> Time: %.6f [sec]\n")
+
+/**
+ * A function for assert <p>
+ * If you don't want to use it, please make it an empty macro.
+ */
+#define VVS_ASSERT                      assert
 
 /**
  * Verify that the given expression is true
@@ -55,13 +69,14 @@
 #define VVS_CHECK_TRUE(EXP) \
 { \
     int _isTrue = (int)(EXP); \
-    fprintf(VVS_OUTPUT, "[CHECK_TRUE ] " #EXP); \
+    fprintf(VVS_OUTPUT, "[CHECK_TRUE] " #EXP); \
     if (_isTrue) fprintf(VVS_OUTPUT, VVS_SUCCESS_MSG); \
     else \
     { \
         fprintf(VVS_OUTPUT, VVS_FAILURE_MSG); \
         fprintf(VVS_OUTPUT, VVS_LOCATION_MSG, __FILE__, __LINE__); \
     } \
+    VVS_ASSERT(_isTrue); \
 }
 
 /**
@@ -78,6 +93,29 @@
         fprintf(VVS_OUTPUT, VVS_FAILURE_MSG); \
         fprintf(VVS_OUTPUT, VVS_LOCATION_MSG, __FILE__, __LINE__); \
     } \
+    VVS_ASSERT(!_isTrue); \
+}
+
+/**
+ * Verify that the given two real values are near
+ * @param VAL1 the first real value
+ * @param VAL2 the second real value
+ * @param EPS the threshold of difference
+ */
+#define VVS_CHECK_NEAR_EPS(VAL1, VAL2, EPS) \
+{ \
+    double _val1 = (double)(VAL1); \
+    double _val2 = (double)(VAL2); \
+    double _delta = _val1 - _val2; \
+    int _isNear = (-EPS < _delta) && (_delta < +EPS); \
+    fprintf(VVS_OUTPUT, "[CHECK_NEAR] " #VAL1 " == " #VAL2); \
+    if (_isNear) fprintf(VVS_OUTPUT, VVS_SUCCESS_MSG); \
+    else \
+    { \
+        fprintf(VVS_OUTPUT, VVS_FAILURE_MSG2, _val1, _val2); \
+        fprintf(VVS_OUTPUT, VVS_LOCATION_MSG, __FILE__, __LINE__); \
+    } \
+    VVS_ASSERT(_isNear); \
 }
 
 /**
@@ -85,18 +123,7 @@
  * @param VAL1 the first real value
  * @param VAL2 the second real value
  */
-#define VVS_CHECK_CLOSE(VAL1, VAL2) \
-{ \
-    double _delta = ((double)(VAL1) - (double)(VAL2)); \
-    int _isClose = (-VVS_EPSILON < _delta) && (_delta < +VVS_EPSILON); \
-    fprintf(VVS_OUTPUT, "[CHECK_CLOSE] " #VAL1 " == " #VAL2); \
-    if (_isClose) fprintf(VVS_OUTPUT, VVS_SUCCESS_MSG); \
-    else \
-    { \
-        fprintf(VVS_OUTPUT, VVS_FAILURE_MSG); \
-        fprintf(VVS_OUTPUT, VVS_LOCATION_MSG, __FILE__, __LINE__); \
-    } \
-}
+#define VVS_CHECK_NEAR(VAL1, VAL2)      VVS_CHECK_NEAR_EPS(VAL1, VAL2, VVS_EPSILON)
 
 /**
  * Run the given expression or function (a set of tests)
@@ -112,8 +139,7 @@
 } \
 
 /**
- * Do not run the given expression
- * <p>
+ * Do not run the given expression <p>
  * It is useful to disable RUN_UNIT_TEST instead of applying comment.
  * @param EXP the given expression or function
  */

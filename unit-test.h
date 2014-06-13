@@ -67,34 +67,34 @@
  * @param EXP the given expression
  */
 #define VVS_CHECK_TRUE(EXP) \
-{ \
-    int _isTrue = (int)(EXP); \
-    fprintf(VVS_OUTPUT, "[CHECK_TRUE] " #EXP); \
-    if (_isTrue) fprintf(VVS_OUTPUT, VVS_SUCCESS_MSG); \
-    else \
     { \
-        fprintf(VVS_OUTPUT, VVS_FAILURE_MSG); \
-        fprintf(VVS_OUTPUT, VVS_LOCATION_MSG, __FILE__, __LINE__); \
-    } \
-    VVS_ASSERT(_isTrue); \
-}
+        int _isTrue = (int)(EXP); \
+        fprintf(VVS_OUTPUT, "[CHECK_TRUE] " #EXP); \
+        if (_isTrue) fprintf(VVS_OUTPUT, VVS_SUCCESS_MSG); \
+        else \
+        { \
+            fprintf(VVS_OUTPUT, VVS_FAILURE_MSG); \
+            fprintf(VVS_OUTPUT, VVS_LOCATION_MSG, __FILE__, __LINE__); \
+        } \
+        VVS_ASSERT(_isTrue); \
+    }
 
 /**
  * Verify that the given expression is false
  * @param EXP the given expression
  */
 #define VVS_CHECK_FALSE(EXP) \
-{ \
-    int _isTrue = (int)(EXP); \
-    fprintf(VVS_OUTPUT, "[CHECK_FALSE] " #EXP); \
-    if (!_isTrue) fprintf(VVS_OUTPUT, VVS_SUCCESS_MSG); \
-    else \
     { \
-        fprintf(VVS_OUTPUT, VVS_FAILURE_MSG); \
-        fprintf(VVS_OUTPUT, VVS_LOCATION_MSG, __FILE__, __LINE__); \
-    } \
-    VVS_ASSERT(!_isTrue); \
-}
+        int _isTrue = (int)(EXP); \
+        fprintf(VVS_OUTPUT, "[CHECK_FALSE] " #EXP); \
+        if (!_isTrue) fprintf(VVS_OUTPUT, VVS_SUCCESS_MSG); \
+        else \
+        { \
+            fprintf(VVS_OUTPUT, VVS_FAILURE_MSG); \
+            fprintf(VVS_OUTPUT, VVS_LOCATION_MSG, __FILE__, __LINE__); \
+        } \
+        VVS_ASSERT(!_isTrue); \
+    }
 
 /**
  * Verify that the given two real values are near
@@ -102,42 +102,43 @@
  * @param VAL2 the second real value
  * @param EPS the threshold of difference
  */
-#define VVS_CHECK_NEAR_EPS(VAL1, VAL2, EPS) \
-{ \
-    double _val1 = (double)(VAL1); \
-    double _val2 = (double)(VAL2); \
-    double _delta = _val1 - _val2; \
-    int _isNear = (-EPS < _delta) && (_delta < +EPS); \
-    fprintf(VVS_OUTPUT, "[CHECK_NEAR] " #VAL1 " == " #VAL2); \
-    if (_isNear) fprintf(VVS_OUTPUT, VVS_SUCCESS_MSG); \
-    else \
+#define VVS_CHECK_RANGE(VAL1, VAL2, EPS) \
     { \
-        fprintf(VVS_OUTPUT, VVS_FAILURE_MSG2, _val1, _val2); \
-        fprintf(VVS_OUTPUT, VVS_LOCATION_MSG, __FILE__, __LINE__); \
-    } \
-    VVS_ASSERT(_isNear); \
-}
+        double _val1 = (double)(VAL1); \
+        double _val2 = (double)(VAL2); \
+        double _delta = _val1 - _val2; \
+        int _isNear = (-EPS < _delta) && (_delta < +EPS); \
+        fprintf(VVS_OUTPUT, "[CHECK_NEAR] " #VAL1 " == " #VAL2); \
+        if (_isNear) fprintf(VVS_OUTPUT, VVS_SUCCESS_MSG); \
+        else \
+        { \
+            fprintf(VVS_OUTPUT, VVS_FAILURE_MSG2, _val1, _val2); \
+            fprintf(VVS_OUTPUT, VVS_LOCATION_MSG, __FILE__, __LINE__); \
+        } \
+        VVS_ASSERT(_isNear); \
+    }
 
 /**
  * Verify that the given two real values are near
  * @param VAL1 the first real value
  * @param VAL2 the second real value
  */
-#define VVS_CHECK_NEAR(VAL1, VAL2)      VVS_CHECK_NEAR_EPS(VAL1, VAL2, VVS_EPSILON)
+#define VVS_CHECK_NEAR(VAL1, VAL2)      VVS_CHECK_RANGE(VAL1, VAL2, VVS_EPSILON)
 
 /**
  * Run the given expression or function (a set of tests)
  * @param EXP the given expression or function
  */
 #define VVS_RUN_TEST(EXP) \
-{ \
-    fprintf(VVS_OUTPUT, "=== " #EXP " ===" "\n"); \
-    clock_t _t = clock(); \
-    (EXP); \
-    _t = clock() - _t; \
-    fprintf(VVS_OUTPUT, VVS_TIME_MSG, ((double)_t) / CLOCKS_PER_SEC); \
-} \
-
+    { \
+        clock_t _t; \
+        fprintf(VVS_OUTPUT, "=== " #EXP " ===" "\n"); \
+        _t = clock(); \
+        (EXP); \
+        _t = clock() - _t; \
+        fprintf(VVS_OUTPUT, VVS_TIME_MSG, ((double)_t) / CLOCKS_PER_SEC); \
+    } \
+     
 /**
  * Do not run the given expression <p>
  * It is useful to disable RUN_UNIT_TEST instead of applying comment.

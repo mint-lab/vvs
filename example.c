@@ -24,7 +24,7 @@ void testExample1(void)
 
     // Examples for strings
     VVS_CHECK_TRUE(strcmp(name, "PerceptRUN") == 0);
-    VVS_CHECK_TRUE(strcmp(name, "ETRI") == 0);
+    VVS_CHECK_FALSE(strcmp(name, "ETRI") == 0);
 }
 
 /**

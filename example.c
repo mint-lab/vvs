@@ -7,7 +7,7 @@
 
 #include <string.h>
 #include <math.h>
-#include "unit-test.h"
+#include "vvs.h"
 
 /**
  * An test function for Example #1

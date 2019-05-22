@@ -7,7 +7,7 @@
  * VVS is Beerware so that it is free to use and distribute.
  *
  * @author  Sunglok Choi (http://sites.google.com/site/sunglok)
- * @version 0.1 (10/23/2013)
+ * @version 0.2 (05/22/2019)
  */
 
 #ifndef __VVS_UNIT_TEST__
@@ -40,7 +40,12 @@
 #define VVS_FAILURE_MSG                 (" --> Failure!\n")
 
 /**
- * A text (with two given values) to notify the given test is failed
+ * A text (with two integer values) to notify the given test is failed
+ */
+#define VVS_FAILURE_MSG1                (" --> Failure! (%d, %d)\n")
+
+/**
+ * A text (with two real values) to notify the given test is failed
  */
 #define VVS_FAILURE_MSG2                (" --> Failure! (%f, %f)\n")
 
@@ -68,15 +73,15 @@
  */
 #define VVS_CHECK_TRUE(EXP) \
     { \
-        int _isTrue = (int)(EXP); \
+        int _isTrue_ = (int)(EXP); \
         fprintf(VVS_OUTPUT, "[CHECK_TRUE] " #EXP); \
-        if (_isTrue) fprintf(VVS_OUTPUT, VVS_SUCCESS_MSG); \
+        if (_isTrue_) fprintf(VVS_OUTPUT, VVS_SUCCESS_MSG); \
         else \
         { \
             fprintf(VVS_OUTPUT, VVS_FAILURE_MSG); \
             fprintf(VVS_OUTPUT, VVS_LOCATION_MSG, __FILE__, __LINE__); \
         } \
-        VVS_ASSERT(_isTrue); \
+        VVS_ASSERT(_isTrue_); \
     }
 
 /**
@@ -85,15 +90,35 @@
  */
 #define VVS_CHECK_FALSE(EXP) \
     { \
-        int _isTrue = (int)(EXP); \
+        int _isTrue_ = (int)(EXP); \
         fprintf(VVS_OUTPUT, "[CHECK_FALSE] " #EXP); \
-        if (!_isTrue) fprintf(VVS_OUTPUT, VVS_SUCCESS_MSG); \
+        if (!_isTrue_) fprintf(VVS_OUTPUT, VVS_SUCCESS_MSG); \
         else \
         { \
             fprintf(VVS_OUTPUT, VVS_FAILURE_MSG); \
             fprintf(VVS_OUTPUT, VVS_LOCATION_MSG, __FILE__, __LINE__); \
         } \
-        VVS_ASSERT(!_isTrue); \
+        VVS_ASSERT(!_isTrue_); \
+    }
+
+/**
+ * Verify that the given two integer values are equal
+ * @param VAL1 the first integer value
+ * @param VAL2 the second integer value
+ */
+#define VVS_CHECK_EQUAL(VAL1, VAL2) \
+    { \
+        int _val1_ = (int)(VAL1); \
+        int _val2_ = (int)(VAL2); \
+        int _isEqual_ = _val1_ == _val2_; \
+        fprintf(VVS_OUTPUT, "[CHECK_EQUL] " #VAL1 " == " #VAL2); \
+        if (_isEqual_) fprintf(VVS_OUTPUT, VVS_SUCCESS_MSG); \
+        else \
+        { \
+            fprintf(VVS_OUTPUT, VVS_FAILURE_MSG1, _val1_, _val2_); \
+            fprintf(VVS_OUTPUT, VVS_LOCATION_MSG, __FILE__, __LINE__); \
+        } \
+        VVS_ASSERT(_isEqual_); \
     }
 
 /**
@@ -104,19 +129,26 @@
  */
 #define VVS_CHECK_RANGE(VAL1, VAL2, EPS) \
     { \
-        double _val1 = (double)(VAL1); \
-        double _val2 = (double)(VAL2); \
-        double _delta = _val1 - _val2; \
-        int _isNear = (-EPS < _delta) && (_delta < +EPS); \
+        double _val1_ = (double)(VAL1); \
+        double _val2_ = (double)(VAL2); \
+        double _delta_ = _val1_ - _val2_; \
+        int _isNear_ = (-EPS < _delta_) && (_delta_ < +EPS); \
         fprintf(VVS_OUTPUT, "[CHECK_NEAR] " #VAL1 " == " #VAL2); \
-        if (_isNear) fprintf(VVS_OUTPUT, VVS_SUCCESS_MSG); \
+        if (_isNear_) fprintf(VVS_OUTPUT, VVS_SUCCESS_MSG); \
         else \
         { \
-            fprintf(VVS_OUTPUT, VVS_FAILURE_MSG2, _val1, _val2); \
+            fprintf(VVS_OUTPUT, VVS_FAILURE_MSG2, _val1_, _val2_); \
             fprintf(VVS_OUTPUT, VVS_LOCATION_MSG, __FILE__, __LINE__); \
         } \
-        VVS_ASSERT(_isNear); \
+        VVS_ASSERT(_isNear_); \
     }
+
+/**
+ * Verify that the given two integer values are equal
+ * @param VAL1 the first integer value
+ * @param VAL2 the second integer value
+ */
+#define VVS_CHECK_EQUL(VAL1, VAL2)      VVS_CHECK_EQUAL(VAL1, VAL2)
 
 /**
  * Verify that the given two real values are near

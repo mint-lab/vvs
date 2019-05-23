@@ -6,6 +6,8 @@
  * Just include the file to your project. It will work without complex configuration and dependency.
  * VVS is Beerware so that it is free to use and distribute.
  *
+ * - Homepage: https://github.com/sunglok/vvs
+ *
  * @author  Sunglok Choi (http://sites.google.com/site/sunglok)
  * @version 0.2 (05/22/2019)
  */

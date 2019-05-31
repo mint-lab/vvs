@@ -12,7 +12,7 @@
 /**
  * An test function for Example #1
  */
-void testExample1(void)
+void testExample1()
 {
     int year = 1982;
     int month = 3;
@@ -33,7 +33,7 @@ void testExample1(void)
 /**
  * An test function for Example #2
  */
-void testExample2(void)
+void testExample2()
 {
     double pi = 3.141592;
 
@@ -43,7 +43,7 @@ void testExample2(void)
     VVS_CHECK_NEAR(atan2(0.0, -1.0), pi);           // True up to tolerance, 'VVS_EPSILON'
 }
 
-int main(void)
+int main()
 {
     // Run test functions
     VVS_RUN_TEST(testExample1());

@@ -5,7 +5,7 @@ _VVS_ aims to provide a very small and simple framework for unit testing in C an
 
 ### File Description
 * `vvs.h` includes all functions and definitions of VVS.
-* `example.c` contains examples of using VVS.
+* `vvs_example.c` contains examples of using VVS.
 * `README.md` is this file which describes basic introduction of VVS.
 
 ### License

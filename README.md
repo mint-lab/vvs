@@ -7,6 +7,11 @@ _VVS_ aims to provide a very small and simple framework for unit testing in C an
 * `vvs.h` includes all functions and definitions of VVS.
 * `vvs_example.c` contains examples of using VVS.
 * `README.md` is this file which describes basic introduction of VVS.
+* `CMakeList.txt` is a [CMake](https://cmake.org/) script to build `vvs_example.c`.
+
+### Running an Example
+* In Microsoft Visual Studio, open a solution file, `msvs/vvs_example.sln`, and run the solution.
+* In Linux and its neighbors, build `vvs_example.c` with `mkdir build && cd build && cmake .. && make`, and run it with `./vvs_example`
 
 ### License
 * [Beerware](http://en.wikipedia.org/wiki/Beerware)
